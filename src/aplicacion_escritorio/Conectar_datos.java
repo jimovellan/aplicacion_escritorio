@@ -1,6 +1,7 @@
 package aplicacion_escritorio;
 
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -67,9 +68,38 @@ public class Conectar_datos {
         {
              javax.swing.JOptionPane. showMessageDialog (VentanaInterna, mensaje);
         }
+    } 
+  public void subir_imagen(String sql,File f)
+   {
+    
+    FileInputStream fis = null;
+    PreparedStatement ps = null;
+    try {
+        con.setAutoCommit(false);
+        //File file = new File(ruta);
+        fis = new FileInputStream(f);
+        ps = con.prepareStatement(sql);
+        ps.setBinaryStream(1,fis,(int)f.length());
+        
+        ps.executeUpdate();
+        con.commit();
+        
+    } catch (Exception ex) {
+        System.out.println("error imagen");//Logger.getLogger(BaseDatos.class.getName()).log(Level.SEVERE, null, ex);
+    }finally{
+        try {
+            ps.close();
+            fis.close();
+        } catch (Exception ex) {
+            System.out.println("error imagen"); // Logger.getLogger(BaseDatos.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }        
+    
+       
+   }       
    public void cerrar()
    {
+       
         try {
             if(con!=null)
             {

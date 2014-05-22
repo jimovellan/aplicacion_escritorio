@@ -29,6 +29,7 @@ import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -64,7 +65,7 @@ public class Panel_cliente extends javax.swing.JPanel {
         initComponents();
         this.conector=conector;   
         evento_arrastrar= new PFoto(imagen);
-        
+        System.out.println(""+imagen.getIcon());
        
    }
     public Panel_cliente(JTabbedPane pestaña, Conectar_datos conector, String id) {
@@ -86,12 +87,13 @@ public class Panel_cliente extends javax.swing.JPanel {
           
          
      }
+          
      
     public void añadir() throws SQLException
     {
         if (datos())
                 {    
-         File f=evento_arrastrar.devolver_ruta_imagen();
+         File f=evento_arrastrar.devolver_ruta_imagen(); /* File de la ruta del icono del label donde esta la imagen "imagen"*/
          FileInputStream fis= null;
             try {
                 fis= new FileInputStream(f);
@@ -107,12 +109,22 @@ public class Panel_cliente extends javax.swing.JPanel {
             sentencia_sql="INSERT INTO cliente (dni, nombre, apellido, telefono, provincia, localidad, cp, direccion, email, foto) VALUES  ('" + Text_dni.getText()+"','"
                     + nombre+"','"+ apellido+"','"+ telefono
                     +"','"+ provincia+"','"
-                    + localidad+"',"+ cp+",'"+ direccion+"','"
-                    + email+"','"+ fis +"');";
-            
-            System.out.println(sentencia_sql); 
-            conector.actualizar(sentencia_sql,"Añadir");
-             
+                    + localidad+"',"+ cp+",'"+ direccion+"','";
+                    if(imagen.getIcon()!=null)
+                    {    
+                        sentencia_sql=sentencia_sql + email+"', ?);";
+                        System.out.println(sentencia_sql);
+                         
+                     conector.subir_imagen(sentencia_sql, f);
+                    }
+                    else
+                    {    
+                        sentencia_sql=sentencia_sql + ", null)";
+                        conector.actualizar(sentencia_sql,"Añadir");
+                    }
+        
+                            
+                           
             
         }
        
@@ -157,18 +169,28 @@ public void cargar_casillas(String id)
                     Image im= null;
                     
                     ResultSet rst= conector.consulta(sentencia_sql);
-                    Blob blog= rst.getBlob("foto");
-                    byte[] datos= blog.getBytes(1, (int)blog.length());
-                    BufferedImage img=null;
-                    try {
-                        Image ico = ImageIO.read(new ByteArrayInputStream(datos));
-                        new icono= new I
-                    } catch (IOException ex) {
-                        Logger.getLogger(Panel_cliente.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+                    
                     
                    
                     rst.next();
+                    /*añadir imagen*/
+                    Blob blog= rst.getBlob("foto");
+                    if (blog!=null)
+                    {    
+                        System.out.println("foto vacia");
+                    byte[] datos= blog.getBytes(1, (int)blog.length());
+                    BufferedImage img=null;
+                    try {
+                        Image III = ImageIO.read(new ByteArrayInputStream(datos));
+                        ImageIcon ico1=(new ImageIcon(III));
+                        JLabel jb= new JLabel(ico1);
+                        imagen.setIcon(ico1);
+                        
+                    } catch (IOException ex) {
+                        Logger.getLogger(Panel_cliente.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    }
+                    /* fin añadir imagen*/
                     Text_dni.setText(rst.getString("dni"));
                     Text_nombre.setText(rst.getString("nombre"));
                     Text_apellido.setText(rst.getString("apellido"));
@@ -929,7 +951,7 @@ public void bloquear_cajas()
        } 
     }
     
-      public boolean datos()
+      public boolean datos() /*compruebo de las cajas estan los campos obligatorios antes de grabar sino se descarta */
     {
         boolean confirmar=true;
         dni=Text_dni.getText();
