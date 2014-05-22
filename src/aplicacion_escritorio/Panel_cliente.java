@@ -812,6 +812,7 @@ public void bloquear_cajas()
         Text_direccion.setEditable(false);
         Text_mail.setEditable(false);
         Text_telefono.setEditable(false);
+        evento_arrastrar.no_arrastrable();
         /*********************************************************/
         Text_dni.setBorder(null);
         Text_apellido.setBorder(null);
@@ -844,6 +845,8 @@ public void bloquear_cajas()
         Text_direccion.setEditable(true);
         Text_mail.setEditable(true);
         Text_telefono.setEditable(true);
+        evento_arrastrar.arrastrable();
+        
         
         Text_dni.setBackground(Color.yellow);
         Text_apellido.setBackground(Color.yellow);

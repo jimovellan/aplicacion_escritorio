@@ -20,6 +20,7 @@ import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
 /**
  *
  * @author nacho
@@ -29,13 +30,22 @@ public class PFoto implements DropTargetListener{
     private JLabel label;
     private ImageIcon icono;
     private File f;
+    private boolean arrastrable;
     public PFoto(JLabel label)
     {
      this.label=label;   
      dt = new DropTarget(label, this);
+     arrastrable=false;
     }        
             
-
+    public void no_arrastrable()
+    {
+        arrastrable=false;
+    }   
+    public void arrastrable()
+    {
+        arrastrable=true;
+    }
     @Override
     public void dragEnter(DropTargetDragEvent dtde) {
         System.out.println("1");
