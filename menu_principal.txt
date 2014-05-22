@@ -1,0 +1,14 @@
+.Mantenimiento
+..Clientes
+..Proveedores
+..Articulos
+..Salir
+.Ventas
+..Presupuesto
+..Albaranes
+..Facturas mitidas
+.Compras
+..Pedidos
+..Frecibidas
+.Contabilidad
+.Utilidades
