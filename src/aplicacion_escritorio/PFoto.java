@@ -34,7 +34,7 @@ public class PFoto implements DropTargetListener{
     public PFoto(JLabel label)
     {
      this.label=label;   
-     dt = new DropTarget(label, this);
+     dt= new DropTarget(label, this);
      arrastrable=false;
     }        
             

@@ -65,8 +65,7 @@ public class Panel_cliente extends javax.swing.JPanel {
         initComponents();
         this.conector=conector;   
         evento_arrastrar= new PFoto(imagen);
-        System.out.println(""+imagen.getIcon());
-       
+        System.out.println(""+imagen.getIcon());    
    }
     public Panel_cliente(JTabbedPane pestaña, Conectar_datos conector, String id) {
         this(pestaña,conector);
@@ -83,9 +82,7 @@ public class Panel_cliente extends javax.swing.JPanel {
           boton_aceptar.setEnabled(true);
           boton_cancelar.setEnabled(true);
           desbloquear_cajas();
-          accion="Añadir";
-          
-         
+          accion="Añadir";       
      }
      public void modificar() throws SQLException 
     {
@@ -94,29 +91,22 @@ public class Panel_cliente extends javax.swing.JPanel {
        int resul=javax.swing.JOptionPane.showConfirmDialog(this, "¿Esta seguro de guardar los cambios?");
          
         if (resul==0)
-        {    
-           
-            
+        {       
             String sentencia_sql="";
-           
-             sentencia_sql="UPDATE  cliente set nombre='"+nombre+"', apellido='"+apellido+"', telefono='"+telefono+"', provincia='"+provincia+"', localidad='"+localidad
-                     +"', direccion='"+direccion+"', email='"+email+"', cp='"+cp+"' where dni='"+dni+"';"
-                     ;
-             System.out.println(sentencia_sql);
-             
+            sentencia_sql="UPDATE  cliente set nombre='"+nombre+"', apellido='"+apellido+"', telefono='"+telefono+"', provincia='"+provincia+"', localidad='"+localidad
+                     +"', direccion='"+direccion+"', email='"+email+"', cp='"+cp+"' where dni='"+dni+"';";        
              conector.actualizar(sentencia_sql,"Actualizar");
-            // borrar_contenido_cajas();
-            //conector.cerrar();
-             bloquear_botones();
+             botones_despues_de_editar();
+        }
+       } 
+    }      
+     public void botones_despues_de_editar()
+     {
+                bloquear_botones();
              boton_editar.setEnabled(true);
              boton_eliminar.setEnabled(true);
              bloquear_cajas();
-        }
-       
-        boton_eliminar.setEnabled(false);
-       } 
-    }      
-     
+     }        
     public void añadir() throws SQLException
     {
         if (datos())
@@ -139,57 +129,52 @@ public class Panel_cliente extends javax.swing.JPanel {
             String sentencia_sql="";
             switch (accion) {
                 case "Añadir":
-                    sentencia_sql="INSERT INTO cliente (dni, nombre, apellido, telefono, provincia, localidad, cp, direccion, email, foto) VALUES  ('" + Text_dni.getText()+"','"
-                    + nombre+"','"+ apellido+"','"+ telefono
-                    +"','"+ provincia+"','"
-                    + localidad+"',"+ cp+",'"+ direccion+"'," + "'"+email+"'";
+                    sentencia_sql="INSERT INTO cliente (dni, nombre, apellido, telefono, provincia,"
+                            + " localidad, cp, direccion, email, foto) VALUES  ('" + Text_dni.getText()+"','"
+                            + nombre+"','"+ apellido+"','"+ telefono
+                            +"','"+ provincia+"','"
+                            + localidad+"',"+ cp+",'"+ direccion+"'," + "'"+email+"'";
                     if(imagen.getIcon()!=null)
                     {    
                         sentencia_sql=sentencia_sql +", ?);";
-                        System.out.println(sentencia_sql);
-                         
-                     conector.subir_imagen(sentencia_sql, f);
+                        conector.subir_imagen(sentencia_sql, f);
                     }
                     else
                     {    
                         sentencia_sql=sentencia_sql + ", null)";
-                        System.out.println(sentencia_sql);
                         conector.actualizar(sentencia_sql,"Añadir");
+                        
                     }
-                    
+                    borrar_contenido_cajas();
                     break;
                 case "Editar":
                      if(imagen.getIcon()!=null)
                     {    
+                        if(f!=null)
+                        {    
                          sentencia_sql="UPDATE  cliente set nombre='"+nombre+"', apellido='"+apellido+"', telefono='"+telefono+"', provincia='"+provincia+"', localidad='"+localidad
                      +"', direccion='"+direccion+"', email='"+email+"', cp='"+cp+"', foto = ? where dni='"+dni+"';";
                         
-                        System.out.println(sentencia_sql);
-                         
-                     conector.subir_imagen(sentencia_sql, f);
+                        conector.subir_imagen(sentencia_sql, f);
+                        }
+                        else
+                        {
+                            modificar();
+                        }    
                     }
                     else
                     {    
-                         sentencia_sql="UPDATE  cliente set nombre='"+nombre+"', apellido='"+apellido+"', telefono='"+telefono+"', provincia='"+provincia+"', localidad='"+localidad
-                     +"', direccion='"+direccion+"', email='"+email+"', cp='"+cp+"', foto= null where dni='"+dni+"';";
-                        sentencia_sql=sentencia_sql + ", null)";
-                        conector.actualizar(sentencia_sql,"Añadir");
+                      modificar();
                     }
-                    
+                   botones_despues_de_editar();
                      
                     break;
-            }
-           
-        
-                            
-                           
-            
+            }        
         }
        
-        borrar_contenido_cajas();
         Text_dni.requestFocus();
         boton_eliminar.setEnabled(false);
-                } 
+       } 
     } 
     
  public void guardar_datos()
@@ -219,29 +204,22 @@ public class Panel_cliente extends javax.swing.JPanel {
 public void cargar_casillas(String id)
 {
     String sentencia_sql="Select * FROM cliente WHERE Ltrim(Rtrim(dni)) = '"+id+"'";
-    System.out.println(sentencia_sql);
-   
-  
+ 
        try {
                     
                     Image im= null;
                     
-                    ResultSet rst= conector.consulta(sentencia_sql);
-                    
-                    
-                   
+                    ResultSet rst= conector.consulta(sentencia_sql);        
                     rst.next();
                     /*añadir imagen*/
-                    Blob blog= rst.getBlob("foto");
-                    if (blog!=null)
+                    Blob blob= rst.getBlob("foto");
+                    if (blob!=null)
                     {    
-                        System.out.println("foto vacia");
-                    byte[] datos= blog.getBytes(1, (int)blog.length());
+                    byte[] datos= blob.getBytes(1, (int)blob.length());
                     BufferedImage img=null;
                     try {
-                        Image III = ImageIO.read(new ByteArrayInputStream(datos));
-                        ImageIcon ico1=(new ImageIcon(III));
-                        JLabel jb= new JLabel(ico1);
+                        Image imagenparaicono = ImageIO.read(new ByteArrayInputStream(datos));
+                        ImageIcon ico1=(new ImageIcon(imagenparaicono));
                         imagen.setIcon(ico1);
                         
                     } catch (IOException ex) {
@@ -284,6 +262,7 @@ private void cerrar_pestaña()
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jButton2 = new javax.swing.JButton();
         Text_telefono = new javax.swing.JTextField();
         text_cp = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
@@ -308,6 +287,9 @@ private void cerrar_pestaña()
         boton_aceptar = new javax.swing.JButton();
         boton_cancelar = new javax.swing.JButton();
         imagen = new javax.swing.JLabel();
+        jButton3 = new javax.swing.JButton();
+
+        jButton2.setText("jButton2");
 
         addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
@@ -555,12 +537,14 @@ private void cerrar_pestaña()
             }
         });
 
+        jButton3.setText("jButton3");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(16, 457, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(boton_eliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(boton_editar, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -608,7 +592,7 @@ private void cerrar_pestaña()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(text_cp, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(jLabel3)
@@ -625,7 +609,9 @@ private void cerrar_pestaña()
                                     .addComponent(Text_direccion))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                 .addComponent(imagen, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -670,9 +656,11 @@ private void cerrar_pestaña()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(Text_mail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel9)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addGroup(layout.createSequentialGroup()
                         .addGap(51, 51, 51)
-                        .addComponent(imagen, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton3)
+                            .addComponent(imagen, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(50, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -692,7 +680,6 @@ private void cerrar_pestaña()
             Text_provincia.requestFocus();
         }        
         
-
     }//GEN-LAST:event_Text_telefonoKeyPressed
 
     private void text_cpFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_text_cpFocusGained
@@ -727,8 +714,6 @@ private void cerrar_pestaña()
         {
            Text_telefono.requestFocus();
         }        
-      
-
     }//GEN-LAST:event_Text_apellidoKeyPressed
 
     private void Text_provinciaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_Text_provinciaFocusGained
@@ -850,7 +835,7 @@ private void cerrar_pestaña()
     }//GEN-LAST:event_Text_localidadKeyPressed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        
+        imagen.setIcon(null);
         cerrar_pestaña();
      
      
@@ -1026,8 +1011,6 @@ public void bloquear_cajas()
                 case "Añadir":
 
                 añadir();
-
-               // consulta("Select * from clientes");
                 break;
                 case "Eliminar":
                 eliminar();
@@ -1036,7 +1019,6 @@ public void bloquear_cajas()
                 añadir();
                 break;
                 case "Buscar":
-               // consulta();
                 break;
 
             }
@@ -1049,12 +1031,7 @@ public void bloquear_cajas()
         
         bloquear_cajas();
         bloquear_botones();
-     //   Table_resultado.setEnabled(true);
-        //borrar_contenido_cajas();
         cargar_casillas(id);
-        // Botton_buscar.setEnabled(true);
-
-       // boton_añadir.setEnabled(true);
         accion="";
 
     }//GEN-LAST:event_boton_cancelarMouseClicked
@@ -1094,6 +1071,8 @@ public void bloquear_cajas()
     private javax.swing.JButton boton_eliminar;
     private javax.swing.JLabel imagen;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
