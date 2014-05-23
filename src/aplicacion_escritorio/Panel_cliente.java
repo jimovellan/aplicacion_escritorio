@@ -87,7 +87,35 @@ public class Panel_cliente extends javax.swing.JPanel {
           
          
      }
-          
+     public void modificar() throws SQLException 
+    {
+        if(datos())
+       {  
+       int resul=javax.swing.JOptionPane.showConfirmDialog(this, "¿Esta seguro de guardar los cambios?");
+         
+        if (resul==0)
+        {    
+           
+            
+            String sentencia_sql="";
+           
+             sentencia_sql="UPDATE  cliente set nombre='"+nombre+"', apellido='"+apellido+"', telefono='"+telefono+"', provincia='"+provincia+"', localidad='"+localidad
+                     +"', direccion='"+direccion+"', email='"+email+"', cp='"+cp+"' where dni='"+dni+"';"
+                     ;
+             System.out.println(sentencia_sql);
+             
+             conector.actualizar(sentencia_sql,"Actualizar");
+            // borrar_contenido_cajas();
+            //conector.cerrar();
+             bloquear_botones();
+             boton_editar.setEnabled(true);
+             boton_eliminar.setEnabled(true);
+             bloquear_cajas();
+        }
+       
+        boton_eliminar.setEnabled(false);
+       } 
+    }      
      
     public void añadir() throws SQLException
     {
@@ -95,24 +123,29 @@ public class Panel_cliente extends javax.swing.JPanel {
                 {    
          File f=evento_arrastrar.devolver_ruta_imagen(); /* File de la ruta del icono del label donde esta la imagen "imagen"*/
          FileInputStream fis= null;
+         if(f!=null)
+         {    
             try {
                 fis= new FileInputStream(f);
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(Panel_cliente.class.getName()).log(Level.SEVERE, null, ex);
             }
+         }   
         int resul=javax.swing.JOptionPane.showConfirmDialog(this, "Esta seguro de crear el Cliente");
         if (resul==0)
         {    
           
            
             String sentencia_sql="";
-            sentencia_sql="INSERT INTO cliente (dni, nombre, apellido, telefono, provincia, localidad, cp, direccion, email, foto) VALUES  ('" + Text_dni.getText()+"','"
+            switch (accion) {
+                case "Añadir":
+                    sentencia_sql="INSERT INTO cliente (dni, nombre, apellido, telefono, provincia, localidad, cp, direccion, email, foto) VALUES  ('" + Text_dni.getText()+"','"
                     + nombre+"','"+ apellido+"','"+ telefono
                     +"','"+ provincia+"','"
-                    + localidad+"',"+ cp+",'"+ direccion+"','";
+                    + localidad+"',"+ cp+",'"+ direccion+"'," + "'"+email+"'";
                     if(imagen.getIcon()!=null)
                     {    
-                        sentencia_sql=sentencia_sql + email+"', ?);";
+                        sentencia_sql=sentencia_sql +", ?);";
                         System.out.println(sentencia_sql);
                          
                      conector.subir_imagen(sentencia_sql, f);
@@ -120,8 +153,33 @@ public class Panel_cliente extends javax.swing.JPanel {
                     else
                     {    
                         sentencia_sql=sentencia_sql + ", null)";
+                        System.out.println(sentencia_sql);
                         conector.actualizar(sentencia_sql,"Añadir");
                     }
+                    
+                    break;
+                case "Editar":
+                     if(imagen.getIcon()!=null)
+                    {    
+                         sentencia_sql="UPDATE  cliente set nombre='"+nombre+"', apellido='"+apellido+"', telefono='"+telefono+"', provincia='"+provincia+"', localidad='"+localidad
+                     +"', direccion='"+direccion+"', email='"+email+"', cp='"+cp+"', foto = ? where dni='"+dni+"';";
+                        
+                        System.out.println(sentencia_sql);
+                         
+                     conector.subir_imagen(sentencia_sql, f);
+                    }
+                    else
+                    {    
+                         sentencia_sql="UPDATE  cliente set nombre='"+nombre+"', apellido='"+apellido+"', telefono='"+telefono+"', provincia='"+provincia+"', localidad='"+localidad
+                     +"', direccion='"+direccion+"', email='"+email+"', cp='"+cp+"', foto= null where dni='"+dni+"';";
+                        sentencia_sql=sentencia_sql + ", null)";
+                        conector.actualizar(sentencia_sql,"Añadir");
+                    }
+                    
+                     
+                    break;
+            }
+           
         
                             
                            
@@ -924,35 +982,7 @@ public void bloquear_cajas()
         Text_nombre.requestFocus();
 
     }//GEN-LAST:event_boton_editarMouseClicked
-    public void modificar() throws SQLException 
-    {
-        if(datos())
-       {  
-       int resul=javax.swing.JOptionPane.showConfirmDialog(this, "¿Esta seguro de guardar los cambios?");
-         
-        if (resul==0)
-        {    
-           
-            
-            String sentencia_sql="";
-           
-             sentencia_sql="UPDATE  cliente set nombre='"+nombre+"', apellido='"+apellido+"', telefono='"+telefono+"', provincia='"+provincia+"', localidad='"+localidad
-                     +"', direccion='"+direccion+"', email='"+email+"', cp='"+cp+"' where dni='"+dni+"';"
-                     ;
-             System.out.println(sentencia_sql);
-             
-             conector.actualizar(sentencia_sql,"Actualizar");
-            // borrar_contenido_cajas();
-            //conector.cerrar();
-             bloquear_botones();
-             boton_editar.setEnabled(true);
-             boton_eliminar.setEnabled(true);
-             bloquear_cajas();
-        }
-       
-        boton_eliminar.setEnabled(false);
-       } 
-    }
+   
     
       public boolean datos() /*compruebo de las cajas estan los campos obligatorios antes de grabar sino se descarta */
     {
@@ -1003,7 +1033,7 @@ public void bloquear_cajas()
                 eliminar();
                 break;
                 case "Editar":
-                modificar();
+                añadir();
                 break;
                 case "Buscar":
                // consulta();

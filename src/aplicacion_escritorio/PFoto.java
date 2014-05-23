@@ -77,6 +77,8 @@ public File devolver_ruta_imagen()
             dtde.rejectDrop();
             return;
         }
+        if(arrastrable)
+        {    
         dtde.acceptDrop(DnDConstants.ACTION_COPY);
 
         Transferable transferable = dtde.getTransferable();
@@ -103,6 +105,7 @@ public File devolver_ruta_imagen()
             
         }
         dtde.dropComplete(true);
+        }
     }
      public boolean isDragAcceptable(DropTargetDragEvent event) {
        
