@@ -76,7 +76,6 @@ public class Conectar_datos {
     PreparedStatement ps = null;
     try {
         con.setAutoCommit(false);
-        //File file = new File(ruta);
         fis = new FileInputStream(f);
         ps = con.prepareStatement(sql);
         ps.setBinaryStream(1,fis,(int)f.length());
