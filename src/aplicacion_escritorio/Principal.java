@@ -45,13 +45,20 @@ public class Principal extends JFrame {
    static  String driver="com.mysql.jdbc.Driver";
    //static  String login="nacho";
    //static  String pass="16601225d";
-   static String url="jdbc:mysql://172.245.214.34:3306/nacho_gestion";
+   //static String url="jdbc:mysql://192.168.1.138:3306/Basededatos";
+    static  String login="nacho";
+   static  String pass="16601225d";
    //static String url="jdbc:mysql://192.168.1.128:3306/test";
    //static  String driver="com.mysql.jdbc.Driver";
   
    //static  String driver="connect.microsoft.MicrosoftDriver";
-   static  String login="nacho";
-   static  String pass="16601225d";
+   
+   /*conexion servidor propio*/
+   static String url="jdbc:mysql://172.245.214.34:3306/nacho_gestion";
+   //static  String login="nacho";
+   //static  String pass="16601225d";
+   
+   
    //static String url="jdbc:sqlserver://localhost;databaseName=GESTION";
    //static String driver="com.microsoft.sqlserver.jdbc.SQLServerDriver";
    Conectar_datos conector;

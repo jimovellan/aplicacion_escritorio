@@ -91,10 +91,12 @@ public class Panel_cliente extends javax.swing.JPanel {
        int resul=javax.swing.JOptionPane.showConfirmDialog(this, "¿Esta seguro de guardar los cambios?");
          
         if (resul==0)
-        {       
+        {   
+            Blob foto=null;
             String sentencia_sql="";
             sentencia_sql="UPDATE  cliente set nombre='"+nombre+"', apellido='"+apellido+"', telefono='"+telefono+"', provincia='"+provincia+"', localidad='"+localidad
-                     +"', direccion='"+direccion+"', email='"+email+"', cp='"+cp+"' where dni='"+dni+"';";        
+                     +"', direccion='"+direccion+"', email='"+email+"', cp='"+cp+"', foto = null where dni='"+dni+"';"; 
+            System.out.println(sentencia_sql);
              conector.actualizar(sentencia_sql,"Actualizar");
              botones_despues_de_editar();
         }
@@ -106,6 +108,7 @@ public class Panel_cliente extends javax.swing.JPanel {
              boton_editar.setEnabled(true);
              boton_eliminar.setEnabled(true);
              bloquear_cajas();
+             boton_quitar_foto.setEnabled(false);
      }        
     public void añadir() throws SQLException
     {
@@ -287,7 +290,7 @@ private void cerrar_pestaña()
         boton_aceptar = new javax.swing.JButton();
         boton_cancelar = new javax.swing.JButton();
         imagen = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
+        boton_quitar_foto = new javax.swing.JButton();
 
         jButton2.setText("jButton2");
 
@@ -530,6 +533,8 @@ private void cerrar_pestaña()
             }
         });
 
+        imagen.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        imagen.setText("No imagen");
         imagen.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         imagen.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -537,7 +542,12 @@ private void cerrar_pestaña()
             }
         });
 
-        jButton3.setText("jButton3");
+        boton_quitar_foto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/1401137841_trash_16x16.gif"))); // NOI18N
+        boton_quitar_foto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                boton_quitar_fotoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -610,8 +620,8 @@ private void cerrar_pestaña()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                 .addComponent(imagen, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(boton_quitar_foto, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -659,7 +669,7 @@ private void cerrar_pestaña()
                     .addGroup(layout.createSequentialGroup()
                         .addGap(51, 51, 51)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton3)
+                            .addComponent(boton_quitar_foto)
                             .addComponent(imagen, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(50, Short.MAX_VALUE))
         );
@@ -855,6 +865,7 @@ public void bloquear_cajas()
         Text_direccion.setEditable(false);
         Text_mail.setEditable(false);
         Text_telefono.setEditable(false);
+         boton_quitar_foto.setEnabled(false);
         evento_arrastrar.no_arrastrable();
         /*********************************************************/
         Text_dni.setBorder(null);
@@ -900,7 +911,7 @@ public void bloquear_cajas()
         Text_direccion.setBackground(Color.yellow);
         Text_mail.setBackground(Color.yellow);
         Text_telefono.setBackground(Color.yellow);
-        
+        boton_quitar_foto.setEnabled(true);
         
         
         
@@ -1055,6 +1066,10 @@ public void bloquear_cajas()
        
     }//GEN-LAST:event_imagenMouseClicked
 
+    private void boton_quitar_fotoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton_quitar_fotoActionPerformed
+       imagen.setIcon(null);
+    }//GEN-LAST:event_boton_quitar_fotoActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField Text_apellido;
@@ -1069,10 +1084,10 @@ public void bloquear_cajas()
     private javax.swing.JButton boton_cancelar;
     private javax.swing.JButton boton_editar;
     private javax.swing.JButton boton_eliminar;
+    private javax.swing.JButton boton_quitar_foto;
     private javax.swing.JLabel imagen;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

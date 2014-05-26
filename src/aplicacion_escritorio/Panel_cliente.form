@@ -113,8 +113,8 @@
               </Group>
               <Component id="imagen" min="-2" pref="167" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jButton3" min="-2" pref="27" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
+              <Component id="boton_quitar_foto" min="-2" pref="22" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -173,7 +173,7 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="51" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jButton3" min="-2" max="-2" attributes="0"/>
+                          <Component id="boton_quitar_foto" min="-2" max="-2" attributes="0"/>
                           <Component id="imagen" min="-2" pref="207" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -461,6 +461,8 @@
     </Component>
     <Component class="javax.swing.JLabel" name="imagen">
       <Properties>
+        <Property name="horizontalAlignment" type="int" value="0"/>
+        <Property name="text" type="java.lang.String" value="No imagen"/>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.EtchedBorderInfo">
             <EtchetBorder/>
@@ -471,10 +473,15 @@
         <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="imagenMouseClicked"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton3">
+    <Component class="javax.swing.JButton" name="boton_quitar_foto">
       <Properties>
-        <Property name="text" type="java.lang.String" value="jButton3"/>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/iconos/1401137841_trash_16x16.gif"/>
+        </Property>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="boton_quitar_fotoActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>
