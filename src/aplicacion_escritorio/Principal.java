@@ -52,16 +52,18 @@ public class Principal extends JFrame {
    //static  String driver="com.mysql.jdbc.Driver";
   
    //static  String driver="connect.microsoft.MicrosoftDriver";
+    //static String driver="com.microsoft.sqlserver.jdbc.SQLServerDriver";
    
    /*conexion servidor propio*/
    static String url="jdbc:mysql://172.245.214.34:3306/nacho_gestion";
    //static  String login="nacho";
    //static  String pass="16601225d";
    
-   
+     //static String url="jdbc:mysql://192.168.1.128:3306/test";
    //static String url="jdbc:sqlserver://localhost;databaseName=GESTION";
    //static String driver="com.microsoft.sqlserver.jdbc.SQLServerDriver";
    Conectar_datos conector;
+   
     public Principal() throws IOException 
     {
         //cargar_tema();
@@ -89,7 +91,15 @@ public class Principal extends JFrame {
             
 });
             
-    }  
+    }
+    public void conexion_predeterminada()
+    {
+        conector.datos_nueva_conexion(driver, url, login, pass);
+    }        
+    public Conectar_datos get_conexion()
+    {
+        return conector;
+    }        
    public void cargar_tema()
     {
          try {
@@ -98,7 +108,8 @@ public class Principal extends JFrame {
         } catch (Exception ex) {
             Logger.getLogger(Aplicacion_escritorio.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }       
+    }   
+  
     public void añadir_menu(Vector items)
     {
       ActionListener escucha_menu= new ActionListener() {
@@ -113,7 +124,9 @@ public class Principal extends JFrame {
               
                   Myventana hija= new Clientes("Clientes", padre,conector);
                   break;    
-                      
+                  case "Base de datos":
+                  new Conexiones("Base de datos", padre,conector);
+                  break;
                  
            
                  

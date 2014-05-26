@@ -169,6 +169,9 @@ public class Clientes extends Myventana {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 Text_busquedaKeyPressed(evt);
             }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                Text_busquedaKeyTyped(evt);
+            }
         });
 
         jLabel1.setText("Buscar");
@@ -303,6 +306,10 @@ public class Clientes extends Myventana {
         }
         Panel_pestañas.setSelectedIndex(devolver_pestaña("Nuevo Cliente"));
     }//GEN-LAST:event_nuevo_clienteActionPerformed
+
+    private void Text_busquedaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Text_busquedaKeyTyped
+      consulta_todos();
+    }//GEN-LAST:event_Text_busquedaKeyTyped
 
     
      public void eliminar_lineas()

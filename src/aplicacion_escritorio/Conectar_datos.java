@@ -42,6 +42,16 @@ public class Conectar_datos {
         this.url=url;
         
     } 
+    public void datos_nueva_conexion(String driver, String url, String login, String pass)
+    {
+        this.driver=driver;
+        this.url=url;
+        this.login=login;
+        this.pass=pass;
+        this.cerrar();
+        this.conectar();
+        
+    }        
     public Conectar_datos(JInternalFrame padre, String driver, String url,String login,String pass)
     {
         this(padre,url);
