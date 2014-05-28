@@ -36,7 +36,7 @@ public class Clientes extends Myventana {
        Statement stmt=null;
        TableRowSorter<TableModel> ordenar;
        String url;
-       String[] nombre_columna={"Dni","Nombre","Apellido","Telefono","Provincia","Localidad","CP","Direccion","E-mail"};
+       String[] nombre_columna={"id","Dni","Nombre","Apellido","Telefono","Provincia","Localidad","CP","Direccion","E-mail"};
        String accion;
        DefaultTableModel modelotabla;
        int lineaseleccionada;
@@ -59,14 +59,18 @@ public class Clientes extends Myventana {
     public Clientes(String titulo, JDesktopPane padre, Conectar_datos conector) {
         super(titulo,padre);
         initComponents();
+        this.padre=padre;
+        accion="";
+        color_fondo=this.getBackground();
+        Text_titulo.setText(titulo);
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         
         cargar_tabla_resultados();
         this.setResizable(false);
-         this.padre=padre;
-        accion="";
-        color_fondo=this.getBackground();
-        Text_titulo.setText(titulo);
+         
+        
+        
+        
         this.conector=conector;
         consulta("SELECT * FROM cliente");
         //consulta("SELECT * FROM cliente");
@@ -239,7 +243,7 @@ public class Clientes extends Myventana {
          String id_busqueda="";   
             
         
-        String nombre_pestaña=(String)Table_resultado.getValueAt(Table_resultado.getSelectedRow(),2)+", " + (String)Table_resultado.getValueAt(Table_resultado.getSelectedRow(),1);
+        String nombre_pestaña=(String)Table_resultado.getValueAt(Table_resultado.getSelectedRow(),3)+", " + (String)Table_resultado.getValueAt(Table_resultado.getSelectedRow(),2);
         if(devolver_pestaña(nombre_pestaña)==-1)
         {
         id_busqueda=(String)Table_resultado.getValueAt(Table_resultado.getSelectedRow(),0);
@@ -337,7 +341,8 @@ public class Clientes extends Myventana {
          + "UPPER(localidad) like '" + token +"%' OR " + "UPPER(direccion) like '" + token +"%' OR " 
           + "UPPER(email) like '" + token +"%') AND "      ;*/
         
-         sql = sql + "(UPPER(dni) like '" + token +"%' OR " + "UPPER(dni) like '% " + token +"%' OR "
+         sql = sql + "(UPPER(id) like '" + token +"%' OR " + "UPPER(id) like '% " + token +"%' OR "
+        + "(UPPER(dni) like '" + token +"%' OR " + "UPPER(dni) like '% " + token +"%' OR "
         + "UPPER(nombre) like '" + token +"%' OR "+ "UPPER(nombre) like '% " + token +"%' OR " 
         +  "UPPER(apellido) like '" + token +"%' OR " + "UPPER(apellido) like '% " + token +"%' OR "
         + "UPPER(telefono) like '" + token +"%' OR " + "UPPER(telefono) like '% " + token +"%' OR "
@@ -374,16 +379,17 @@ public class Clientes extends Myventana {
                 while(rs.next())
                 {
 
-                    Object[] fila= new Object[9];
-                    fila[0]=rs.getString("dni");
-                    fila[1]=rs.getString("nombre");
-                    fila[2]=rs.getString("apellido");
-                    fila[3]=rs.getString("telefono");
-                    fila[4]=rs.getString("localidad");
-                    fila[5]=rs.getString("provincia");
-                    fila[6]=rs.getString("cp");
-                    fila[7]=rs.getString("direccion");
-                    fila[8]=rs.getString("email");
+                    Object[] fila= new Object[10];
+                    fila[0]=rs.getString("id");
+                    fila[1]=rs.getString("dni");
+                    fila[2]=rs.getString("nombre");
+                    fila[3]=rs.getString("apellido");
+                    fila[4]=rs.getString("telefono");
+                    fila[5]=rs.getString("localidad");
+                    fila[6]=rs.getString("provincia");
+                    fila[7]=rs.getString("cp");
+                    fila[8]=rs.getString("direccion");
+                    fila[9]=rs.getString("email");
                     
                     modelotabla.addRow(fila);
                     // String text=Text_Area_Resultado.getText();
@@ -416,16 +422,17 @@ public class Clientes extends Myventana {
                 while(rs.next())
                 {
 
-                    Object[] fila= new Object[9];
-                    fila[0]=rs.getString("dni");
-                    fila[1]=rs.getString("nombre");
-                    fila[2]=rs.getString("apellido");
-                    fila[3]=rs.getString("telefono");
-                    fila[4]=rs.getString("localidad");
-                    fila[5]=rs.getString("provincia");
-                    fila[6]=rs.getString("cp");
-                    fila[7]=rs.getString("direccion");
-                    fila[8]=rs.getString("email");
+                    Object[] fila= new Object[10];
+                    fila[0]=rs.getString("id");
+                    fila[1]=rs.getString("dni");
+                    fila[2]=rs.getString("nombre");
+                    fila[3]=rs.getString("apellido");
+                    fila[4]=rs.getString("telefono");
+                    fila[5]=rs.getString("localidad");
+                    fila[6]=rs.getString("provincia");
+                    fila[7]=rs.getString("cp");
+                    fila[8]=rs.getString("direccion");
+                    fila[9]=rs.getString("email");
                     
                     modelotabla.addRow(fila);
                     // String text=Text_Area_Resultado.getText();

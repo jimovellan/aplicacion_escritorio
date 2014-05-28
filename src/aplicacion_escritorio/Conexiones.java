@@ -7,6 +7,7 @@
 package aplicacion_escritorio;
 
 import static aplicacion_escritorio.Principal.driver;
+import javax.swing.ButtonGroup;
 import javax.swing.JDesktopPane;
 
 /**
@@ -26,18 +27,25 @@ public class Conexiones extends Myventana {
     private String base;
     private String ip;
     private Conectar_datos conexion;
+    private ButtonGroup grupobotones;
+    private JDesktopPane padre;
+    
     
     public Conexiones(String titulo, JDesktopPane padre, Conectar_datos conexion) {
         super(titulo,padre);
         initComponents();
         cargar_ventana();
         this.conexion=conexion;
+        this.padre=padre;
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
     }
     public void cargar_ventana()
     {
      for(int i=0; i<=lista.length-1;i++)
      Lista_conectores.addItem(lista[i]);
+     grupobotones = new ButtonGroup();
+     grupobotones.add(opcion_manual);
+     grupobotones.add(opcion_localhost);
     }        
     /**
      * This method is called from within the constructor to initialize the form.
@@ -48,6 +56,10 @@ public class Conexiones extends Myventana {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
+        buttonGroup2 = new javax.swing.ButtonGroup();
+        buttonGroup3 = new javax.swing.ButtonGroup();
+        buttonGroup4 = new javax.swing.ButtonGroup();
         Lista_conectores = new javax.swing.JComboBox();
         jLabel1 = new javax.swing.JLabel();
         Base_de_datos = new javax.swing.JTextField();
@@ -60,12 +72,17 @@ public class Conexiones extends Myventana {
         Boton_conectar = new javax.swing.JButton();
         Boton_cancelar = new javax.swing.JButton();
         Contraseña_conexion = new javax.swing.JPasswordField();
+        opcion_localhost = new javax.swing.JRadioButton();
+        opcion_manual = new javax.swing.JRadioButton();
+        jSeparator1 = new javax.swing.JSeparator();
+        jSeparator2 = new javax.swing.JSeparator();
+        boton_probar_conexion = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jLabel1.setText("Tipo Base de datos");
+        jLabel1.setText(" Base de datos");
 
-        jLabel2.setText("Tabla");
+        jLabel2.setText("Base de datos");
 
         jLabel3.setText("ip");
 
@@ -87,6 +104,28 @@ public class Conexiones extends Myventana {
 
         Boton_cancelar.setText("Cancelar");
 
+        opcion_localhost.setText("LocalHost");
+        opcion_localhost.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                opcion_localhostStateChanged(evt);
+            }
+        });
+
+        opcion_manual.setText("Manual");
+        opcion_manual.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                opcion_manualStateChanged(evt);
+            }
+        });
+
+        boton_probar_conexion.setFont(new java.awt.Font("sansserif", 0, 10)); // NOI18N
+        boton_probar_conexion.setText("Probar conexion");
+        boton_probar_conexion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                boton_probar_conexionActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -94,51 +133,65 @@ public class Conexiones extends Myventana {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(41, 41, 41)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(Lista_conectores, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(49, 49, 49)
+                        .addGap(12, 12, 12)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel3))
-                                .addGap(40, 40, 40)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(Base_de_datos, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(ip_servidor, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel5)
-                                    .addComponent(jLabel4))
+                                .addGap(2, 2, 2)
+                                .addComponent(jLabel1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(6, 6, 6)
-                                        .addComponent(Contraseña_conexion))
-                                    .addComponent(Usuario_conexion, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                .addContainerGap(54, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(Boton_conectar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(Boton_cancelar)
-                .addGap(93, 93, 93))
+                                .addComponent(Lista_conectores, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(opcion_localhost)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(opcion_manual))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(ip_servidor, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jLabel2)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(Base_de_datos, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel4)
+                                        .addComponent(jLabel5))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(Contraseña_conexion)
+                                        .addComponent(Usuario_conexion, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE))))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(Boton_conectar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(Boton_cancelar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(boton_probar_conexion)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jSeparator2)
+            .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(82, 82, 82)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Lista_conectores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(79, 79, 79)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(ip_servidor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
-                .addGap(12, 12, 12)
+                    .addComponent(jLabel1)
+                    .addComponent(Lista_conectores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(25, 25, 25)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 8, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(opcion_localhost)
+                    .addComponent(opcion_manual))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3)
+                    .addComponent(ip_servidor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(17, 17, 17)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(Base_de_datos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -150,11 +203,12 @@ public class Conexiones extends Myventana {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(Contraseña_conexion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Boton_conectar)
-                    .addComponent(Boton_cancelar))
-                .addGap(37, 37, 37))
+                    .addComponent(Boton_cancelar)
+                    .addComponent(boton_probar_conexion))
+                .addContainerGap())
         );
 
         pack();
@@ -163,19 +217,19 @@ public class Conexiones extends Myventana {
     private void Boton_conectarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Boton_conectarKeyPressed
         // TODO add your handling code here:
     }//GEN-LAST:event_Boton_conectarKeyPressed
-
-    private void Boton_conectarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Boton_conectarMouseClicked
+    public void recoger_datos()
+    {
         base=Base_de_datos.getText();
         contraseña=Contraseña_conexion.getText();
          ip=ip_servidor.getText();
          usuario=Usuario_conexion.getText();
-        switch (Lista_conectores.getSelectedIndex()) {
+         switch (Lista_conectores.getSelectedIndex()) {
             case 0:
                 
-                Driver="com.mysql.jdbc.Driver";
-                url="jdbc:mysql://"+ip+":3306/"+Base_de_datos.getText();
+                this.Driver="com.mysql.jdbc.Driver";
+                this.url="jdbc:mysql://"+ip+":3306/"+base;
                 System.out.println(url);
-                conexion.datos_nueva_conexion(Driver, url, usuario, contraseña);
+              
                 
              
                 
@@ -183,14 +237,41 @@ public class Conexiones extends Myventana {
    //static String url="jdbc:sqlserver://localhost;databaseName=GESTION";
                 break;
             case 1:
-               Driver="com.microsoft.sqlserver.jdbc.SQLServerDriver";
-               url="jdbc:sqlserver://"+ip+";databaseName="+base+";";
-               conexion.datos_nueva_conexion(Driver, url, usuario, contraseña); //cierra y conecta la nueva conexion.
+               this.Driver="com.microsoft.sqlserver.jdbc.SQLServerDriver";
+               this.url="jdbc:sqlserver://"+ip+";databaseName="+base+";";
+              
             
                break;
                 
         }
+    }        
+    private void Boton_conectarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Boton_conectarMouseClicked
+        recoger_datos();
+        conexion.datos_nueva_conexion(Driver, url, usuario, contraseña);
     }//GEN-LAST:event_Boton_conectarMouseClicked
+
+    private void opcion_localhostStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_opcion_localhostStateChanged
+        if(opcion_localhost.isSelected())
+        {
+            ip_servidor.setText("localhost");
+            ip_servidor.setEnabled(false);
+        }    
+    }//GEN-LAST:event_opcion_localhostStateChanged
+
+    private void opcion_manualStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_opcion_manualStateChanged
+        if(opcion_manual.isSelected())
+        {
+            ip_servidor.setText("");
+            ip_servidor.setEnabled(true);
+        }    
+    }//GEN-LAST:event_opcion_manualStateChanged
+
+    private void boton_probar_conexionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton_probar_conexionActionPerformed
+        recoger_datos();
+        Conectar_datos cd = new Conectar_datos(this, url);
+        cd.datos_nueva_conexion(this.Driver, this.url, this.usuario, this.contraseña);
+        cd.probar_conexion();
+    }//GEN-LAST:event_boton_probar_conexionActionPerformed
 
     /**
      * @param args the command line arguments
@@ -230,11 +311,20 @@ public class Conexiones extends Myventana {
     private javax.swing.JPasswordField Contraseña_conexion;
     private javax.swing.JComboBox Lista_conectores;
     private javax.swing.JTextField Usuario_conexion;
+    private javax.swing.JButton boton_probar_conexion;
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.ButtonGroup buttonGroup2;
+    private javax.swing.ButtonGroup buttonGroup3;
+    private javax.swing.ButtonGroup buttonGroup4;
     private javax.swing.JTextField ip_servidor;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JRadioButton opcion_localhost;
+    private javax.swing.JRadioButton opcion_manual;
     // End of variables declaration//GEN-END:variables
 }

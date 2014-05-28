@@ -58,6 +58,7 @@ public class Panel_cliente extends javax.swing.JPanel {
        String email;
        Panel_cliente pc;
        String id;
+       String id_cliente;
        Color color;
        PFoto evento_arrastrar;
     public Panel_cliente(JTabbedPane pestaña, Conectar_datos conector) {
@@ -69,8 +70,8 @@ public class Panel_cliente extends javax.swing.JPanel {
    }
     public Panel_cliente(JTabbedPane pestaña, Conectar_datos conector, String id) {
         this(pestaña,conector);
-        this.id=id;
-        cargar_casillas(id);
+        this.id_cliente=id;
+        cargar_casillas(id_cliente);
         bloquear_cajas();
         boton_editar.setEnabled(true);
         boton_eliminar.setEnabled(true);
@@ -95,7 +96,7 @@ public class Panel_cliente extends javax.swing.JPanel {
             Blob foto=null;
             String sentencia_sql="";
             sentencia_sql="UPDATE  cliente set nombre='"+nombre+"', apellido='"+apellido+"', telefono='"+telefono+"', provincia='"+provincia+"', localidad='"+localidad
-                     +"', direccion='"+direccion+"', email='"+email+"', cp='"+cp+"', foto = null where dni='"+dni+"';"; 
+                     +"', direccion='"+direccion+"', email='"+email+"', cp='"+cp+"', foto = null where id='"+id_cliente+"';"; 
             System.out.println(sentencia_sql);
              conector.actualizar(sentencia_sql,"Actualizar");
              botones_despues_de_editar();
@@ -116,7 +117,7 @@ public class Panel_cliente extends javax.swing.JPanel {
                 {    
          File f=evento_arrastrar.devolver_ruta_imagen(); /* File de la ruta del icono del label donde esta la imagen "imagen"*/
          FileInputStream fis= null;
-         if(f!=null)
+         if(imagen.getIcon()!=null)
          {    
             try {
                 fis= new FileInputStream(f);
@@ -156,7 +157,7 @@ public class Panel_cliente extends javax.swing.JPanel {
                         if(f!=null)
                         {    
                          sentencia_sql="UPDATE  cliente set nombre='"+nombre+"', apellido='"+apellido+"', telefono='"+telefono+"', provincia='"+provincia+"', localidad='"+localidad
-                     +"', direccion='"+direccion+"', email='"+email+"', cp='"+cp+"', foto = ? where dni='"+dni+"';";
+                     +"', direccion='"+direccion+"', email='"+email+"', cp='"+cp+"', foto = ? where id='"+id_cliente+"';";
                         
                         conector.subir_imagen(sentencia_sql, f);
                         }
@@ -179,9 +180,14 @@ public class Panel_cliente extends javax.swing.JPanel {
         boton_eliminar.setEnabled(false);
        } 
     } 
+public void devolver_id_cliente()
+{
+    
+}        
     
  public void guardar_datos()
  {
+     id_cliente=Text_id.getText();
       dni=Text_dni.getText();
       nombre=Text_nombre.getText();
       apellido=Text_apellido.getText();
@@ -194,6 +200,7 @@ public class Panel_cliente extends javax.swing.JPanel {
  }        
  public void devolver_datos()
  {
+     Text_id.setText(id_cliente);
      Text_dni.setText(dni);
      Text_nombre.setText(nombre);
      Text_apellido.setText(apellido);
@@ -206,7 +213,7 @@ public class Panel_cliente extends javax.swing.JPanel {
  }
 public void cargar_casillas(String id)
 {
-    String sentencia_sql="Select * FROM cliente WHERE Ltrim(Rtrim(dni)) = '"+id+"'";
+    String sentencia_sql="Select * FROM cliente WHERE Ltrim(Rtrim(id)) = '"+id_cliente+"'";
  
        try {
                     
@@ -230,6 +237,7 @@ public void cargar_casillas(String id)
                     }
                     }
                     /* fin añadir imagen*/
+                    Text_id.setText(rst.getString("id"));
                     Text_dni.setText(rst.getString("dni"));
                     Text_nombre.setText(rst.getString("nombre"));
                     Text_apellido.setText(rst.getString("apellido"));
@@ -291,6 +299,8 @@ private void cerrar_pestaña()
         boton_cancelar = new javax.swing.JButton();
         imagen = new javax.swing.JLabel();
         boton_quitar_foto = new javax.swing.JButton();
+        jLabel10 = new javax.swing.JLabel();
+        Text_id = new javax.swing.JTextField();
 
         jButton2.setText("jButton2");
 
@@ -549,6 +559,16 @@ private void cerrar_pestaña()
             }
         });
 
+        jLabel10.setFont(new java.awt.Font("VTC Letterer Pro", 1, 14)); // NOI18N
+        jLabel10.setText("Cod.");
+
+        Text_id.setFont(new java.awt.Font("VTC Letterer Pro", 0, 12)); // NOI18N
+        Text_id.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Text_idActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -567,57 +587,60 @@ private void cerrar_pestaña()
                 .addGap(39, 39, 39))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGap(2, 2, 2)
-                                .addComponent(jLabel7)
-                                .addGap(18, 18, 18))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1)
-                                    .addComponent(jLabel4))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(Text_provincia)
-                                    .addComponent(Text_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jLabel2)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(Text_apellido, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(22, 22, 22)
-                                        .addComponent(jLabel6)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(Text_localidad, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                            .addComponent(Text_dni, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addGap(12, 12, 12)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(jLabel7)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel4)
+                                            .addComponent(jLabel1)
+                                            .addComponent(jLabel10)))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(Text_provincia)
+                                        .addComponent(Text_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(jLabel2)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(Text_apellido, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addGap(22, 22, 22)
+                                            .addComponent(jLabel6)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(Text_localidad, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(jLabel9)
+                                            .addGap(43, 43, 43))
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(jLabel5)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(Text_mail)
+                                        .addComponent(Text_direccion, javax.swing.GroupLayout.PREFERRED_SIZE, 385, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(85, 85, 85)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(Text_id)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGap(1, 1, 1)
+                                    .addComponent(Text_dni, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(16, 16, 16)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(text_cp, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(Text_telefono, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(153, 153, 153))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel5)
-                                    .addComponent(jLabel9))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(Text_mail, javax.swing.GroupLayout.DEFAULT_SIZE, 385, Short.MAX_VALUE)
-                                    .addComponent(Text_direccion))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                        .addGap(40, 40, 40)
+                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(text_cp, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel3)
+                        .addGap(12, 12, 12)
+                        .addComponent(Text_telefono, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addComponent(imagen, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(boton_quitar_foto, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -635,11 +658,15 @@ private void cerrar_pestaña()
                     .addComponent(boton_eliminar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
+                        .addGap(48, 48, 48)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel10)
+                            .addComponent(Text_id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(Text_dni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel4))
-                        .addGap(20, 20, 20)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(Text_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel1)
@@ -647,19 +674,20 @@ private void cerrar_pestaña()
                             .addComponent(Text_apellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(10, 10, 10)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(Text_provincia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel7)
+                                .addComponent(Text_provincia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel7))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(jLabel6)
                                 .addComponent(Text_localidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(30, 30, 30)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(text_cp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel8)
+                            .addComponent(Text_telefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3)
-                            .addComponent(Text_telefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel8))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(Text_direccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel5))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -671,7 +699,7 @@ private void cerrar_pestaña()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(boton_quitar_foto)
                             .addComponent(imagen, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(50, Short.MAX_VALUE))
+                .addContainerGap(27, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -856,6 +884,7 @@ private void cerrar_pestaña()
     }//GEN-LAST:event_formKeyTyped
 public void bloquear_cajas()
     {
+        Text_id.setEditable(false);
         Text_dni.setEditable(false);
         Text_apellido.setEditable(false);
         Text_nombre.setEditable(false);
@@ -868,6 +897,7 @@ public void bloquear_cajas()
          boton_quitar_foto.setEnabled(false);
         evento_arrastrar.no_arrastrable();
         /*********************************************************/
+        Text_id.setBorder(null);
         Text_dni.setBorder(null);
         Text_apellido.setBorder(null);
         Text_nombre.setBorder(null);
@@ -877,6 +907,7 @@ public void bloquear_cajas()
         Text_direccion.setBorder(null);
         Text_mail.setBorder(null);
         Text_telefono.setBorder(null);
+        Text_id.setBackground(Color.white);
         Text_dni.setBackground(Color.white);
         Text_apellido.setBackground(Color.white);
         Text_nombre.setBackground(Color.white);
@@ -925,7 +956,7 @@ public void bloquear_cajas()
            
             
             String sentencia_sql="";
-            sentencia_sql="DELETE FROM cliente where dni='"+Text_dni.getText()+"'"; ;
+            sentencia_sql="DELETE FROM cliente where id='"+Text_id.getText()+"'"; 
              conector.actualizar(sentencia_sql,"Eliminar");
              borrar_contenido_cajas();
             //conector.cerrar();
@@ -937,6 +968,7 @@ public void bloquear_cajas()
     }     
     public void borrar_contenido_cajas()
     {
+        Text_id.setText("");
         Text_dni.setText("");
         Text_apellido.setText("");
         Text_nombre.setText("");
@@ -946,6 +978,7 @@ public void bloquear_cajas()
         Text_direccion.setText("");
         Text_mail.setText("");
         Text_telefono.setText("");
+        imagen.setIcon(null);
     }        
     private void boton_eliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_boton_eliminarMouseClicked
         try {
@@ -1070,11 +1103,16 @@ public void bloquear_cajas()
        imagen.setIcon(null);
     }//GEN-LAST:event_boton_quitar_fotoActionPerformed
 
+    private void Text_idActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Text_idActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Text_idActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField Text_apellido;
     private javax.swing.JTextField Text_direccion;
     private javax.swing.JTextField Text_dni;
+    private javax.swing.JTextField Text_id;
     private javax.swing.JTextField Text_localidad;
     private javax.swing.JTextField Text_mail;
     private javax.swing.JTextField Text_nombre;
@@ -1089,6 +1127,7 @@ public void bloquear_cajas()
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

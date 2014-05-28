@@ -176,6 +176,18 @@ public class Conectar_datos {
             
         }
     }
+    public boolean probar_conexion() 
+    {
+         try {
+             if(!con.isClosed()) return true;
+             else
+                 return false;
+         } catch (Exception ex) {
+             mensaje("error conexion");
+             return false;
+         }
+    }        
+            
     public void conectar()
     {
         Avisos aviso= new Avisos("Cargando base de datos...............",JDpanel,"cargando");
@@ -187,8 +199,9 @@ public class Conectar_datos {
              
               Class.forName(driver);
               System.out.println("driver cargado");
-          } catch (ClassNotFoundException ex) {
+          } catch (Exception ex) {
               System.out.println("error al cargar driver mysql "+ ex);
+              mensaje("Error al cargar driver!!");
           }
           //String url="jdbc:mysql://192.168.230.128:3306/test";
           //String url="jdbc:mysql://mysql.hostinger.es:3306/u652843817_proye";
