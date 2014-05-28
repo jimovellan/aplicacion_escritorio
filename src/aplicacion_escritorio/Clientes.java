@@ -309,6 +309,7 @@ public class Clientes extends Myventana {
             Panel_pestañas.addTab("Nuevo Cliente", añadir);
         }
         Panel_pestañas.setSelectedIndex(devolver_pestaña("Nuevo Cliente"));
+        añadir.devolver_id_cliente();
     }//GEN-LAST:event_nuevo_clienteActionPerformed
 
     private void Text_busquedaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Text_busquedaKeyTyped

@@ -83,7 +83,8 @@ public class Panel_cliente extends javax.swing.JPanel {
           boton_aceptar.setEnabled(true);
           boton_cancelar.setEnabled(true);
           desbloquear_cajas();
-          accion="Añadir";       
+          accion="Añadir";   
+          devolver_id_cliente();
      }
      public void modificar() throws SQLException 
     {
@@ -182,7 +183,8 @@ public class Panel_cliente extends javax.swing.JPanel {
     } 
 public void devolver_id_cliente()
 {
-    
+    id_cliente=conector.devolver_identity("cliente");
+    Text_id.setText(id_cliente);
 }        
     
  public void guardar_datos()
@@ -553,6 +555,7 @@ private void cerrar_pestaña()
         });
 
         boton_quitar_foto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/1401137841_trash_16x16.gif"))); // NOI18N
+        boton_quitar_foto.setToolTipText("Eliminar imagen");
         boton_quitar_foto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 boton_quitar_fotoActionPerformed(evt);

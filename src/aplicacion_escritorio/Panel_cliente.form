@@ -490,6 +490,7 @@
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
           <Image iconType="3" name="/iconos/1401137841_trash_16x16.gif"/>
         </Property>
+        <Property name="toolTipText" type="java.lang.String" value="Eliminar imagen"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="boton_quitar_fotoActionPerformed"/>

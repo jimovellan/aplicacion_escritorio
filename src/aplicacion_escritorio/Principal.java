@@ -92,6 +92,7 @@ public class Principal extends JFrame {
 });
             
     }
+    
     public void conexion_predeterminada()
     {
         conector.datos_nueva_conexion(driver, url, login, pass);

@@ -35,6 +35,35 @@ public class Conectar_datos {
      String pass="";
      String tipo;
      
+    public String devolver_identity(String tabla)
+    {
+        String sentencia_sql="";
+        String id_cliente="";
+        if (driver.equals("com.mysql.jdbc.Driver"))
+            sentencia_sql="SELECT max(id)+1 as id from " + tabla;
+                
+        if (driver.equals("com.microsoft.sqlserver.jdbc.SQLServerDriver"))
+            
+          sentencia_sql="SELECT max('"+tabla+"')+1 as id";  
+        
+         ResultSet rs= consulta(sentencia_sql);
+    if (rs!=null)
+    {
+        try {
+            rs.next();
+            id_cliente=rs.getString("id");
+        } catch (SQLException ex) {
+            System.out.println("error al cargar id");
+        }
+    } 
+    else
+    {    
+        id_cliente="1";
+    }
+    return id_cliente;
+              
+  
+    }        
     public Conectar_datos(JInternalFrame padre,String url)
     {
         String tipo="";
