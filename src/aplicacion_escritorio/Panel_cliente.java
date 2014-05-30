@@ -120,12 +120,12 @@ public class Panel_cliente extends javax.swing.JPanel {
          FileInputStream fis= null;
          if(imagen.getIcon()!=null)
          {    
-            try {
-                fis= new FileInputStream(f);
+       /*     try {
+                //fis= new FileInputStream(f);
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(Panel_cliente.class.getName()).log(Level.SEVERE, null, ex);
-            }
-         }   
+            }*/
+         }  
         int resul=javax.swing.JOptionPane.showConfirmDialog(this, "Esta seguro de crear el Cliente");
         if (resul==0)
         {    
@@ -753,7 +753,7 @@ private void cerrar_pestaña()
     private void Text_apellidoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Text_apellidoKeyPressed
  if(evt.getKeyCode()==KeyEvent.VK_ENTER)
         {
-           Text_telefono.requestFocus();
+           Text_provincia.requestFocus();
         }        
     }//GEN-LAST:event_Text_apellidoKeyPressed
 

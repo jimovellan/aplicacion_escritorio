@@ -48,6 +48,7 @@ public class Principal extends JFrame {
    private Hashtable<String,String> configuracion;
    JMenuBar menu;
    JDesktopPane padre;
+   Clientes hija;
    static  String driver="com.mysql.jdbc.Driver";
    private String basesdedatos;
    private String puerto;
@@ -115,7 +116,7 @@ public class Principal extends JFrame {
             { 
                 linea=linea.replace(" ", "");
                 
-                StringTokenizer st=new StringTokenizer(linea,":");
+                StringTokenizer st=new StringTokenizer(linea,"=");
                 linea=st.nextToken();
                 if (st.countTokens()==0) dato="";
                 else dato=st.nextToken();
@@ -125,7 +126,7 @@ public class Principal extends JFrame {
     
                
             }    
-            System.out.println(configuracion.get("pass"));
+            System.out.println(configuracion.get("contraseña"));
             System.out.println(configuracion.get("usuario"));
             System.out.println(configuracion.get("driver"));
             System.out.println(configuracion.get("basededatos"));
@@ -138,11 +139,11 @@ public class Principal extends JFrame {
      public void construir_datos_conexion()
      {
          login=configuracion.get("usuario");
-         pass=configuracion.get("pass");
+         pass=configuracion.get("contraseña");
          basesdedatos=configuracion.get("basededatos");
          puerto=configuracion.get("puerto");
          driver=configuracion.get("driver");
-         ip=configuracion.get("ip");
+         ip=configuracion.get("servidor");
          if(driver.equals("com.mysql.jdbc.Driver"))
          {    
            this.url="jdbc:mysql://"+ip+"";
@@ -191,7 +192,7 @@ public class Principal extends JFrame {
                       break;
                   case "Clientes":
               
-                  Myventana hija= new Clientes("Clientes", padre,conector);
+                   hija= new Clientes("Clientes", padre,conector);
                   break;    
                   case "Base de datos":
                   new Conexiones("Base de datos", padre,conector);
@@ -214,7 +215,10 @@ public class Principal extends JFrame {
         }
     }
     
-  
+  public void cerrar_ventana()
+  {
+      hija.cerrar();
+  }        
   
 
    

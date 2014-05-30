@@ -456,6 +456,10 @@ public class Clientes extends Myventana {
         System.out.println("pestaña encontrada "+pestaña);
         return pestaña;
     }
+    public void cerrar()
+    {
+        this.dispose();
+    }
     public void cargar_tabla_resultados()
     {
         

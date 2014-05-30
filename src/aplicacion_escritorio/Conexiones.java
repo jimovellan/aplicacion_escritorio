@@ -250,6 +250,7 @@ public class Conexiones extends Myventana {
     private void Boton_conectarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Boton_conectarMouseClicked
         recoger_datos();
         conexion.datos_nueva_conexion(Driver, url, usuario, contraseña);
+        padre.removeAll();
     }//GEN-LAST:event_Boton_conectarMouseClicked
 
     private void opcion_localhostStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_opcion_localhostStateChanged

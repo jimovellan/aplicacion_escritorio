@@ -1,6 +1,6 @@
-usuario:nacho
-pass:16601225d
-driver:com.mysql.jdbc.Driver
-puerto:3306
-basededatos:nacho_gestion
-ip:172.245.214.34
+usuario=nacho
+contraseña=16601225d
+driver=com.mysql.jdbc.Driver
+puerto=3306
+basededatos=nacho_gestion
+servidor=172.245.214.34
