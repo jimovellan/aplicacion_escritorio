@@ -193,6 +193,7 @@
     </Component>
     <Component class="javax.swing.JRadioButton" name="opcion_localhost">
       <Properties>
+        <Property name="selected" type="boolean" value="true"/>
         <Property name="text" type="java.lang.String" value="LocalHost"/>
       </Properties>
       <Events>

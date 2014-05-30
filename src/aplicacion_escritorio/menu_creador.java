@@ -4,9 +4,11 @@ package aplicacion_escritorio;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.URL;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -43,6 +45,7 @@ public class menu_creador implements ActionListener{
     {
         
         try {
+           
             FileReader fr= new FileReader(ruta);
             BufferedReader br = new BufferedReader(fr);
             String linea= "";

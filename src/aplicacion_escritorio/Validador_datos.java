@@ -33,10 +33,7 @@ res= true;
 }
 return res;
 }
- static public void main(String[] arg)
- {
-     System.out.println(""+Validador_datos.DNI("16601225d"));
- }
+ 
 }
 
 

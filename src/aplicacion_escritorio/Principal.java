@@ -17,9 +17,14 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.EventListener;
+import java.util.Hashtable;
+import java.util.StringTokenizer;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -40,22 +45,26 @@ import org.w3c.dom.events.MouseEvent;
  */
 public class Principal extends JFrame {
     
+   private Hashtable<String,String> configuracion;
    JMenuBar menu;
    JDesktopPane padre;
    static  String driver="com.mysql.jdbc.Driver";
+   private String basesdedatos;
+   private String puerto;
+   private String ip;
    //static  String login="nacho";
    //static  String pass="16601225d";
    //static String url="jdbc:mysql://192.168.1.138:3306/Basededatos";
-    static  String login="nacho";
-   static  String pass="16601225d";
+    private  String login;
+   private  String pass;
    //static String url="jdbc:mysql://192.168.1.128:3306/test";
    //static  String driver="com.mysql.jdbc.Driver";
-  
+ 
    //static  String driver="connect.microsoft.MicrosoftDriver";
     //static String driver="com.microsoft.sqlserver.jdbc.SQLServerDriver";
    
    /*conexion servidor propio*/
-   static String url="jdbc:mysql://172.245.214.34:3306/nacho_gestion";
+   private String url;
    //static  String login="nacho";
    //static  String pass="16601225d";
    
@@ -67,8 +76,9 @@ public class Principal extends JFrame {
     public Principal() throws IOException 
     {
         //cargar_tema();
+        
         menu_creador menuPrincipal =new menu_creador("menu_principal.txt");
-       
+        leer_fichero();
         menu = menuPrincipal.menu;
         añadir_menu(menuPrincipal.elementos);
         setJMenuBar(menu);
@@ -92,6 +102,64 @@ public class Principal extends JFrame {
 });
             
     }
+     public void leer_fichero() throws IOException 
+    {
+        configuracion= new Hashtable();
+        String dato="";
+        try {
+            FileReader fr= new FileReader("configuracion.txt");
+            BufferedReader br = new BufferedReader(fr);
+            String linea= "";
+            
+            while((linea=br.readLine())!=null)
+            { 
+                linea=linea.replace(" ", "");
+                
+                StringTokenizer st=new StringTokenizer(linea,":");
+                linea=st.nextToken();
+                if (st.countTokens()==0) dato="";
+                else dato=st.nextToken();
+                    
+                    
+               configuracion.put(linea, dato);
+    
+               
+            }    
+            System.out.println(configuracion.get("pass"));
+            System.out.println(configuracion.get("usuario"));
+            System.out.println(configuracion.get("driver"));
+            System.out.println(configuracion.get("basededatos"));
+        } catch (FileNotFoundException ex) {
+            System.out.println("error lectura de fichero menu_creador.leer_fichero");
+        }
+        construir_datos_conexion();
+     
+    } 
+     public void construir_datos_conexion()
+     {
+         login=configuracion.get("usuario");
+         pass=configuracion.get("pass");
+         basesdedatos=configuracion.get("basededatos");
+         puerto=configuracion.get("puerto");
+         driver=configuracion.get("driver");
+         ip=configuracion.get("ip");
+         if(driver.equals("com.mysql.jdbc.Driver"))
+         {    
+           this.url="jdbc:mysql://"+ip+"";
+           if (puerto=="") this.url=this.url+":"+puerto+"/";      
+           else this.url=this.url+"/";
+           this.url=this.url+basesdedatos;
+         } 
+                  
+         System.out.println(url);
+   //static  String login="nacho";
+   //static  String pass="16601225d";
+   
+     //static String url="jdbc:mysql://192.168.1.128:3306/test";
+   //static String url="jdbc:sqlserver://localhost;databaseName=GESTION";
+         
+         
+     }        
     
     public void conexion_predeterminada()
     {

@@ -313,7 +313,7 @@ public class Clientes extends Myventana {
     }//GEN-LAST:event_nuevo_clienteActionPerformed
 
     private void Text_busquedaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Text_busquedaKeyTyped
-      consulta_todos();
+     
     }//GEN-LAST:event_Text_busquedaKeyTyped
 
     
@@ -343,7 +343,7 @@ public class Clientes extends Myventana {
           + "UPPER(email) like '" + token +"%') AND "      ;*/
         
          sql = sql + "(UPPER(id) like '" + token +"%' OR " + "UPPER(id) like '% " + token +"%' OR "
-        + "(UPPER(dni) like '" + token +"%' OR " + "UPPER(dni) like '% " + token +"%' OR "
+        + "UPPER(dni) like '" + token +"%' OR " + "UPPER(dni) like '% " + token +"%' OR "
         + "UPPER(nombre) like '" + token +"%' OR "+ "UPPER(nombre) like '% " + token +"%' OR " 
         +  "UPPER(apellido) like '" + token +"%' OR " + "UPPER(apellido) like '% " + token +"%' OR "
         + "UPPER(telefono) like '" + token +"%' OR " + "UPPER(telefono) like '% " + token +"%' OR "
@@ -354,8 +354,10 @@ public class Clientes extends Myventana {
         + "UPPER(email) like '" + token +"%' OR " + "UPPER(email) like '% " + token +"%') AND "    ;
         
         }
+       System.out.println(sql.substring(0, sql.length()-4));
        consulta(sql.substring(0, sql.length()-4));
-        System.out.println(sql.substring(0, sql.length()-4));
+        
+        
      if(!Text_busqueda.equals(""))
      {
          
