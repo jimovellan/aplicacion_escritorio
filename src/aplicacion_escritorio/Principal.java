@@ -173,7 +173,8 @@ public class Principal extends JFrame {
    public void cargar_tema()
     {
          try {
-           UIManager.setLookAndFeel(new NimbusLookAndFeel());
+             UIManager.setLookAndFeel("com.seaglasslookandfeel.SeaGlassLookAndFeel");
+           //UIManager.setLookAndFeel(new NimbusLookAndFeel());
            new Principal();
         } catch (Exception ex) {
             Logger.getLogger(Aplicacion_escritorio.class.getName()).log(Level.SEVERE, null, ex);

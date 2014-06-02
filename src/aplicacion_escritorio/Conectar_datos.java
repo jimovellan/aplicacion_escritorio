@@ -207,14 +207,47 @@ public class Conectar_datos {
     }
     public boolean probar_conexion() 
     {
-         try {
-             if(!con.isClosed()) return true;
-             else
-                 return false;
-         } catch (Exception ex) {
-             mensaje("error conexion");
-             return false;
-         }
+        boolean prueba=false;
+        try {
+         
+         
+        
+          try {
+             
+              Class.forName(driver);
+              System.out.println("driver cargado");
+          } catch (Exception ex) {
+              System.out.println("error al cargar driver mysql "+ ex);
+              mensaje("Error al cargar driver!!");
+          }
+          //String url="jdbc:mysql://192.168.230.128:3306/test";
+          //String url="jdbc:mysql://mysql.hostinger.es:3306/u652843817_proye";
+          
+          try {
+               //con=DriverManager.getConnection(url);
+              con=DriverManager.getConnection(url,login,pass);
+              System.out.println("conectado a base de datos");
+              
+          } catch (SQLException ex) {
+              mensaje(ex.toString());
+              System.out.println(ex);
+              
+          }
+          
+                 stmt =con.createStatement();
+                 System.out.println("conectado");
+                 mensaje("conexion correcta");
+                 prueba = true;
+                 
+     } catch (SQLException ex) {
+             mensaje("no es posible conectar conexion incorrecta");
+         
+     }
+     finally{
+            
+        }
+        return prueba;
+         
     }        
             
     public void conectar()

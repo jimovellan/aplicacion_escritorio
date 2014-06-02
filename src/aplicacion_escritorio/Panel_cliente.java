@@ -107,10 +107,11 @@ public class Panel_cliente extends javax.swing.JPanel {
      public void botones_despues_de_editar()
      {
                 bloquear_botones();
-             boton_editar.setEnabled(true);
-             boton_eliminar.setEnabled(true);
+             
              bloquear_cajas();
              boton_quitar_foto.setEnabled(false);
+             boton_editar.setEnabled(true);
+             boton_eliminar.setEnabled(true);
      }        
     public void añadir() throws SQLException
     {
@@ -151,6 +152,8 @@ public class Panel_cliente extends javax.swing.JPanel {
                         
                     }
                     borrar_contenido_cajas();
+                    boton_eliminar.setEnabled(false);
+                    
                     break;
                 case "Editar":
                      if(imagen.getIcon()!=null)
@@ -178,13 +181,13 @@ public class Panel_cliente extends javax.swing.JPanel {
         }
        
         Text_dni.requestFocus();
-        boton_eliminar.setEnabled(false);
+       
        } 
     } 
 public void devolver_id_cliente()
 {
-    id_cliente=conector.devolver_identity("cliente");
-    Text_id.setText(id_cliente);
+ /*   id_cliente=conector.devolver_identity("cliente");
+    Text_id.setText(id_cliente);*/
 }        
     
  public void guardar_datos()
